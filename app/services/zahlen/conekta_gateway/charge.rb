@@ -19,7 +19,7 @@ module Zahlen
           gateway_card_id: nil,
           amount_cents: chrg[:amount],
           amount_currency: chrg[:currency],
-          card_placeholder: chrg.dig(:payment_method, :name),
+          card_holdername: chrg.dig(:payment_method, :name),
           card_brand: chrg.dig(:payment_method, :brand),
           card_last4: chrg.dig(:payment_method, :last4),
           paid_at: chrg[:paid_at] ? Time.at(chrg[:paid_at]) : nil,
