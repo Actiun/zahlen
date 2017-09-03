@@ -14,10 +14,11 @@ class @SubscriptionCheckout
   formSubmitHandler: ->
     self = @
     form_selector = @constructor.form_selector
-    payment_method = @constructor.payment_method
+    self.payment_method = $("input[data-zahlen='payment-method']:checked").val()
+
     $(document).off("submit#{form_selector}").on "submit#{form_selector}", "#{form_selector}", (e) ->
       e.preventDefault()
-      if payment_method in ['card']
+      if self.payment_method in ['card']
         if !self.validateForm()
           SubscriptionCheckout.showError(Zahlen.locale().errors.not_valid)
           return false
@@ -25,11 +26,11 @@ class @SubscriptionCheckout
       $(this).find(':submit').prop('disabled', true);
       $('.zahlen-spinner').show();
 
-      if !payment_method?
+      if !self.payment_method?
         console.log "No payment method has been found. Please check your form."
         return false
 
-      if payment_method in ['card']
+      if self.payment_method in ['card']
         Conekta.Token.create($(form_selector), self.conektaSuccessResponseHandler, self.conektaErrorResponseHandler)
       else
         self.offlineReponseHandler()
@@ -96,8 +97,6 @@ class @SubscriptionCheckout
     form.append $('<input type="hidden" name="gateway_card_id">').val(token.id)
     # Remove all card fields from beign submit
     form.find("input[data-conekta*='card']").remove()
-
-    console.log form
 
     base_path = '/zahlen'
     action = form.attr('action')
