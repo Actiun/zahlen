@@ -94,7 +94,7 @@ module Zahlen
     end
 
     def to_param
-      guid
+      uuid
     end
 
     def instrument_plan_changed(old_plan)
