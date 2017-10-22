@@ -33,7 +33,7 @@ module Zahlen
 
         if card.blank?
           # Get default payment source
-          card = customer.payment_sources.map{|k,c| c if c.default }.compact.first
+          card = customer.payment_sources.map{ |k, c| c if c.default }.compact.first
         end
 
         conekta_sub = customer.create_subscription({
