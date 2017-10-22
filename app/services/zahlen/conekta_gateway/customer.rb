@@ -5,7 +5,7 @@ module Zahlen
         owner = subscription.owner
 
         if subscription.gateway_customer_id.present?
-          # If an existing Stripe customer id is specified, use it
+          # If an existing Conekta customer id is specified, use it
           gateway_customer_id = subscription.gateway_customer_id
         elsif subscription.owner
           # Look for an existing successful Subscription for the same owner, and use its gateway customer id
@@ -13,7 +13,7 @@ module Zahlen
         end
 
         if gateway_customer_id
-          # Retrieve the customer from Stripe and use it for this subscription
+          # Retrieve the customer from Conekta and use it for this subscription
           customer = Conekta::Customer.find(gateway_customer_id)
           # Add payment method if subscription have card token
           if subscription.gateway_token_id.present?
