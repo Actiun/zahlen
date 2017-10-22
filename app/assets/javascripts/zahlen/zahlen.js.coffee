@@ -23,7 +23,7 @@ class @Zahlen
         card_cvc: 'El código de seguridad es invalido.'
         card_holdername: "El nombre del titular es invalido."
         rejected: '¡Lo sentimos! Pero tu pago fue decliado por la institución bancaria. Por favor intentalo de nuevo'
-        timeout: 'Al parecer ha tomado mucho tiempo esta validar tu transación. Por favor contacta a nuestro equipo de soporte y proporcionales el siguiente identificador de transacción: '
+        timeout: 'Al parecer ha tomado mucho tiempo validar tu transación. Por favor contacta a nuestro equipo de soporte y proporcionales el siguiente identificador de transacción: '
 
   @locale: ->
     Zahlen.locales[@language]
