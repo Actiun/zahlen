@@ -31,7 +31,18 @@ module Zahlen
     end
 
     def active_subscription
-      subscription.activate! if status_changed? && status == 'paid'
+      return unless status_changed?
+      sub = subscription
+      if status == 'paid'
+        current_time = Time.zone.now
+        sub.update_attributes(
+          current_period_start: current_time,
+          current_period_end: current_time + 1.month
+        )
+        sub.activate! if sub.pending_payment?
+      elsif status == 'failed'
+        sub.fail! if sub.pending_payment?
+      end
     end
   end
 end
