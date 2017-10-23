@@ -18,6 +18,7 @@ module Zahlen
     # == Scopes ===============================================================
 
     # == Callbacks ============================================================
+    after_update :active_subscription
 
     # == Class Methods ========================================================
     self.inheritance_column = nil
@@ -27,6 +28,10 @@ module Zahlen
 
     def uuid_prefix
       'chrg_'
+    end
+
+    def active_subscription
+      subscription.activate! if status_changed? && status == 'paid'
     end
   end
 end
