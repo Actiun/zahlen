@@ -163,7 +163,7 @@ module Zahlen
 
     def create_charge(status)
       Zahlen::Charge.create(
-        status: txn_status,
+        status: status,
         description: subscription.plan.name,
         payment_method: self.payment_method,
         subscription_id: self.id,
