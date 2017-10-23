@@ -118,13 +118,13 @@ module Zahlen
     end
 
     def instrument_activate
-      # create_charge('paid')
+      create_charge('paid') if payment_method == 'card'
       Zahlen.instrument(instrument_key('active'), self)
       Zahlen.instrument(instrument_key('active', false), self)
     end
 
     def instrument_waiting
-      # create_charge('pending_payment')
+      create_charge('pending_payment')
       Zahlen.instrument(instrument_key('waiting_payment'), self)
       Zahlen.instrument(instrument_key('waiting_payment', false), self)
     end
@@ -135,13 +135,13 @@ module Zahlen
     end
 
     def instrument_fail
-      # create_charge('failed')
+      create_charge('failed') if payment_method == 'card'
       Zahlen.instrument(instrument_key('failed'), self)
       Zahlen.instrument(instrument_key('failed', false), self)
     end
 
     def instrument_refund
-      # create_charge('refund')
+      create_charge('refunded')
       Zahlen.instrument(instrument_key('refunded'), self)
       Zahlen.instrument(instrument_key('refunded', false), self)
     end
@@ -157,11 +157,12 @@ module Zahlen
     def create_charge(status)
       Zahlen::Charge.create(
         status: txn_status,
+        description: subscription.plan.name,
         payment_method: self.payment_method,
         subscription_id: self.id,
-        gateway_customer_id: self.gateway_customer_id,
         amount_cents: self.amount_cents,
         amount_currency: self.amount_currency,
+        gateway_customer_id: self.gateway_customer_id,
         card_last4: self.card_last4
       )
     end
