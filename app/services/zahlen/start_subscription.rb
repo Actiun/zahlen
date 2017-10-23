@@ -80,16 +80,6 @@ module Zahlen
     end
 
     def offline_payment
-      # Create charge with pending_payment for manual approval
-      Zahlen::Charge.create(
-        subscription_id: subscription.id,
-        payment_method: subscription.payment_method,
-        status: 'pending_payment',
-        description: subscription.plan.name,
-        amount_cents: subscription.amount_cents,
-        amount_currency: subscription.amount_currency
-      )
-
       subscription.waiting!
     end
   end
