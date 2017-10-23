@@ -111,6 +111,13 @@ module Zahlen
       'sub_'
     end
 
+    def manual_period(start_at, end_at = nil)
+      update_attributes(
+        current_period_start: start_at,
+        current_period_end: end_at.blank? ? (start_at + 1.month) : end_at
+      )
+    end
+
     # private
 
     def start_subscription
@@ -118,7 +125,7 @@ module Zahlen
     end
 
     def instrument_activate
-      create_charge('paid') if payment_method == 'card'
+      # create_charge('paid') if payment_method == 'card'
       Zahlen.instrument(instrument_key('active'), self)
       Zahlen.instrument(instrument_key('active', false), self)
     end
