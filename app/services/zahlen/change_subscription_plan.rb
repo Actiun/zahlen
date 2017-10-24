@@ -4,8 +4,8 @@ module Zahlen
       case subscription.payment_method
       when 'card'
         Zahlen::ConektaGateway::ChangePlan.call(subscription, plan)
-      when 'cash', 'wire_transfer', 'check'
-        # Add pending_payment charge to the subscription
+      else
+        subscription.create_charge('pending_payment')
       end
     end
   end
