@@ -98,7 +98,7 @@ module Zahlen
     end
 
     def instrument_plan_changed(old_plan)
-      # self.old_plan = old_plan
+      self.old_plan = old_plan
       Zahlen.instrument(instrument_key('plan_changed'), self)
       Zahlen.instrument(instrument_key('plan_changed', false), self)
     end
@@ -164,7 +164,7 @@ module Zahlen
     def create_charge(status, payment_method = nil, new_plan = nil)
       Zahlen::Charge.create(
         status: status,
-        description: subscription.plan.name,
+        description: plan.name,
         payment_method: payment_method || self.payment_method,
         subscription_id: id,
         amount_cents: amount_cents,
