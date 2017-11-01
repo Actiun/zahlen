@@ -165,12 +165,12 @@ module Zahlen
         status: status,
         subscription_id: id,
         payment_method: payment_method || self.payment_method,
+        new_plan: new_plan || plan,
         description: new_plan.try(:name) || plan.name,
         amount_cents: new_plan.try(:amount_cents) || amount_cents,
         amount_currency: new_plan.try(:amount_currency) || amount_currency,
         gateway_customer_id: gateway_customer_id,
-        card_last4: card_last4,
-        new_plan: new_plan
+        card_last4: card_last4
       )
     end
   end
