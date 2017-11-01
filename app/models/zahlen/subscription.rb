@@ -161,16 +161,17 @@ module Zahlen
       end
     end
 
-    def create_charge(status)
+    def create_charge(status, payment_method = nil, new_plan = nil)
       Zahlen::Charge.create(
         status: status,
         description: subscription.plan.name,
-        payment_method: self.payment_method,
-        subscription_id: self.id,
-        amount_cents: self.amount_cents,
-        amount_currency: self.amount_currency,
-        gateway_customer_id: self.gateway_customer_id,
-        card_last4: self.card_last4
+        payment_method: payment_method || self.payment_method,
+        subscription_id: id,
+        amount_cents: amount_cents,
+        amount_currency: amount_currency,
+        gateway_customer_id: gateway_customer_id,
+        card_last4: card_last4,
+        new_plan: new_plan
       )
     end
   end

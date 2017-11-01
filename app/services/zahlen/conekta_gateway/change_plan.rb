@@ -4,9 +4,7 @@ module Zahlen
       def self.call(subscription, plan)
         customer_data = Zahlen::ConektaGateway::Customer.find_or_create(subscription)
         customer = customer_data[:customer]
-        conekta_sub = customer.subscription.update({
-          plan: plan.gateway_reference_id
-        })
+        customer.subscription.update(plan: plan.gateway_reference_id)
       end
     end
   end
