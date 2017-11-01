@@ -125,7 +125,6 @@ module Zahlen
     end
 
     def instrument_activate
-      # create_charge('paid') if payment_method == 'card'
       Zahlen.instrument(instrument_key('active'), self)
       Zahlen.instrument(instrument_key('active', false), self)
     end
@@ -164,11 +163,11 @@ module Zahlen
     def create_charge(status, payment_method = nil, new_plan = nil)
       Zahlen::Charge.create(
         status: status,
-        description: plan.name,
-        payment_method: payment_method || self.payment_method,
         subscription_id: id,
-        amount_cents: amount_cents,
-        amount_currency: amount_currency,
+        payment_method: payment_method || self.payment_method,
+        description: new_plan.try(:name) || plan.name,
+        amount_cents: new_plan.try(:amount_cents) || amount_cents,
+        amount_currency: new_plan.try(:amount_currency) || amount_currency,
         gateway_customer_id: gateway_customer_id,
         card_last4: card_last4,
         new_plan: new_plan
