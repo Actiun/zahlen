@@ -11,6 +11,7 @@ module Zahlen
     include Zahlen::Uuider
 
     # == Relationships ========================================================
+    belongs_to :new_plan, polymorphic: true
     belongs_to :subscription
 
     # == Validations ==========================================================
