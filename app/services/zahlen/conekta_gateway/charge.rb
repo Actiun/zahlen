@@ -11,6 +11,7 @@ module Zahlen
         charge = Zahlen::Charge.create(
           subscription_id: sub.id,
           payment_method: sub.payment_method,
+          new_plan: sub.plan,
           status: chrg[:status],
           description: chrg[:description],
           gateway: 'conekta',
