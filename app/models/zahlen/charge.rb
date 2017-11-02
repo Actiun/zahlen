@@ -19,7 +19,7 @@ module Zahlen
     # == Scopes ===============================================================
 
     # == Callbacks ============================================================
-    after_update :active_subscription
+    after_update :process_charge
 
     # == Class Methods ========================================================
     self.inheritance_column = nil
@@ -44,15 +44,8 @@ module Zahlen
       'chrg_'
     end
 
-    def active_subscription
-      return unless status_changed?
-      sub = subscription
-      if paid?
-        Zahlen::ChargePaid.call(nil, self, Time.zone.now)
-        sub.activate! if sub.pending_payment?
-      elsif failed?
-        sub.fail! if sub.pending_payment?
-      end
+    def process_charge
+      Zahlen::ChargePaid.call(nil, self) if status_changed? && paid?
     end
   end
 end
