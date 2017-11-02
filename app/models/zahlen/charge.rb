@@ -47,10 +47,10 @@ module Zahlen
     def active_subscription
       return unless status_changed?
       sub = subscription
-      if status == 'paid'
+      if paid?
         Zahlen::ChargePaid.call(nil, self, Time.zone.now)
         sub.activate! if sub.pending_payment?
-      elsif status == 'failed'
+      elsif failed?
         sub.fail! if sub.pending_payment?
       end
     end
