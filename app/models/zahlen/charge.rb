@@ -25,7 +25,20 @@ module Zahlen
     self.inheritance_column = nil
 
     # == Instance Methods =====================================================
-    enum status: { pending_payment: 0, paid: 1, refunded: 2, failed: 3 }
+    enum payment_method: {
+      card:           1,
+      paypal:         2,
+      cash:           3,
+      check:          4,
+      wire_transfer:  5
+    }
+
+    enum status: {
+      pending_payment: 0,
+      paid:            1,
+      refunded:        2,
+      failed:          3
+    }
 
     def uuid_prefix
       'chrg_'
