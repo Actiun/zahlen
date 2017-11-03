@@ -90,7 +90,10 @@ module Zahlen
     end
 
     def sync_gateway
-      Zahlen::SyncSubscription.call(self)
+      case gateway
+      when 'conekta'
+        Zahlen::ConektaGateway::SyncSubscription.call(self)
+      end
     end
 
     def to_param
