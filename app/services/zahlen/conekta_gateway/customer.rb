@@ -15,25 +15,20 @@ module Zahlen
         if gateway_customer_id
           # Retrieve the customer from Conekta and use it for this subscription
           customer = Conekta::Customer.find(gateway_customer_id)
-          # Add payment method if subscription have card token
-          if subscription.gateway_token_id.present?
-            source = customer.create_payment_source(type: 'card', token_id: subscription.gateway_token_id)
-          end
-
-          return { customer: customer, card: source }
+          return customer
         end
 
         customer = Conekta::Customer.create({
           name: subscription.owner.full_name,
           email: owner.email,
-          # phone: '+52181818181'
           payment_sources: [{
             type: 'card',
             token_id: subscription.gateway_token_id
           }]
         })
 
-        return { customer: customer }
+        return customer
+
       rescue Conekta::ErrorList => error_list
         errors = []
         for error_detail in error_list.details do

@@ -21,20 +21,15 @@ module Zahlen
 
     def pay_with_card
       begin
-        customer_data = Zahlen::ConektaGateway::Customer.find_or_create(subscription)
-        customer = customer_data[:customer]
-        card = customer_data[:card]
-
+        customer = Zahlen::ConektaGateway::Customer.find_or_create(subscription)
         return if subscription.errored?
 
         if customer.blank?
           raise 'Customer couldnt be found and its required to make the charge.'
         end
 
-        if card.blank?
-          # Get default payment source
-          card = customer.payment_sources.map{ |k, c| c if c.default }.compact.first
-        end
+        # Get default payment source
+        card = customer.payment_sources.map{ |k, c| c if c.default }.compact.first
 
         conekta_sub = customer.create_subscription({
           plan: subscription.plan.gateway_reference_id,
