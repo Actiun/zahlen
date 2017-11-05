@@ -9,6 +9,7 @@ class @SubscriptionCheckout
 
   handlers: ->
     @formSubmitHandler()
+    @getInitPaymentMethod()
     @paymentMethodToggle()
 
   formSubmitHandler: ->
@@ -35,6 +36,9 @@ class @SubscriptionCheckout
       else
         self.offlineReponseHandler()
       return false
+
+  getInitPaymentMethod: ->
+    @payment_method = $("input[data-zahlen='payment-method']").val()
 
   paymentMethodToggle: ->
     self = @
