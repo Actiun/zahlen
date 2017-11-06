@@ -39,8 +39,10 @@ class @SubscriptionCheckout
       return false
 
   getInitPaymentMethod: ->
-    @payment_method = $("input[data-zahlen='payment-method']").val().replace(/_/, '-')
-
+    payment_method = $("input[data-zahlen='payment-method']").val()
+    if payment_method?
+      @payment_method = payment_method.replace(/_/, '-')
+      
   paymentMethodToggle: ->
     self = @
     form_selector = @constructor.form_selector
