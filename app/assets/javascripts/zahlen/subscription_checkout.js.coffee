@@ -39,7 +39,7 @@ class @SubscriptionCheckout
       return false
 
   getInitPaymentMethod: ->
-    @payment_method = $("input[data-zahlen='payment-method']").val()
+    @payment_method = $("input[data-zahlen='payment-method']").val().replace(/_/, '-')
 
   paymentMethodToggle: ->
     self = @
