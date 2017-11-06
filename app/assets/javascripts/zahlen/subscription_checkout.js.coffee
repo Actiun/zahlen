@@ -6,6 +6,7 @@ class @SubscriptionCheckout
     $.extend @, {}, options
     @handlers()
     $(@constructor.form_selector).find('.zahlen-error').hide()
+    @displayPaymentMethodData()
 
   handlers: ->
     @formSubmitHandler()
@@ -44,10 +45,13 @@ class @SubscriptionCheckout
     self = @
     form_selector = @constructor.form_selector
     $('body').on "change", "input[data-zahlen='payment-method']", (e) ->
-      payment_method = $(this).val().replace(/_/, '-')
-      $('.payment-method-fields').hide()
-      $(".#{payment_method}-fields").show()
       self.payment_method = payment_method
+      self.displayPaymentMethodData()
+
+  displayPaymentMethodData: ->
+    payment_method = @payment_method.replace(/_/, '-')
+    $('.payment-method-fields').hide()
+    $(".#{payment_method}-fields").show()
 
   validateForm: ->
     self = @
