@@ -31,9 +31,9 @@ module Zahlen
 
       charge
     end
-  end
 
-  def self.cancel_gateway_subscription(sub)
-    # TODO: Cancel gateway subscription to avoid double charge
+    def self.cancel_gateway_subscription(sub)
+      # TODO: Cancel gateway subscription to avoid double charge
+    end
   end
 end
