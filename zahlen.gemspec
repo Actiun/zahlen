@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- test/*`.split("\n")
 
-  s.add_dependency 'rails', '~> 4.2.5'
+  s.add_dependency 'rails', '>= 5.0.1'
 
   s.add_dependency 'jquery-rails'
   s.add_dependency 'conekta', '>= 2.0.0'
