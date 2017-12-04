@@ -26,9 +26,10 @@ class @SubscriptionCheckout
           return false
 
       $(this).find(':submit').prop('disabled', true);
-      $('.zahlen-spinner').show();
+      $(form_selector).trigger('zahlen:processingPayment')
 
       if !self.payment_method?
+        $(form_selector).trigger('zahlen:noPaymentMethodFound')
         console.log "No payment method has been found. Please check your form."
         return false
 
@@ -42,7 +43,7 @@ class @SubscriptionCheckout
     payment_method = $("input[data-zahlen='payment-method']").val()
     if payment_method?
       @payment_method = payment_method.replace(/_/, '-')
-      
+
   paymentMethodToggle: ->
     self = @
     form_selector = @constructor.form_selector
@@ -165,6 +166,7 @@ class @SubscriptionCheckout
     $(form_selector).find(':submit').prop('disabled', false).trigger('error', msg)
     $(form_selector).find('.zahlen-error').text(msg)
     $(form_selector).find('.zahlen-error').show()
+    $(form_selector).trigger('zahlen:error');
     console.log $(form_selector).find('.zahlen-error')
 
   @poll: (num_retries_left, uuid, base_path) ->
