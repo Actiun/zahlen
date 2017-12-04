@@ -1,5 +1,5 @@
 module Zahlen
-  class ChargeRefund
+  class ChargeRefunded
     def self.call(event = nil)
       charge = case Zahlen.gateway
                when 'conekta'
