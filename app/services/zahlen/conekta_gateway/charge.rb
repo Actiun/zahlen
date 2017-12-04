@@ -3,7 +3,7 @@ module Zahlen
     class Charge
       def self.find_or_create_from_event(event)
         chrg = event.data['object'].with_indifferent_access
-        charge = Zahlen::Charge.where(gateway: 'conekta', gateway_reference_id: chrg[:id])
+        charge = Zahlen::Charge.where(gateway: 'conekta', gateway_reference_id: chrg[:id]).first
 
         return charge unless charge.blank?
 
