@@ -31,7 +31,7 @@ module Zahlen
       end
 
       def self.search_subscription(charge)
-        Zahlen::Subscription.where(gateway_customer_id: charge[:customer_id])
+        Zahlen::Subscription.where(gateway: 'conekta', gateway_customer_id: charge[:customer_id])
                             .order('created_at desc')
                             .first
       end
