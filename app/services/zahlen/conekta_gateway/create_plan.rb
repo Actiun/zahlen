@@ -27,7 +27,7 @@ module Zahlen
           raise 'Conekta::Plan exist with same ID and it has differences'
         end
       rescue Conekta::ErrorList => error_list
-        for error_detail in error_list.details do
+        error_list.details.each do |error_detail|
           raise "Conketa Error Msg => #{error_detail.message}"
         end
       end

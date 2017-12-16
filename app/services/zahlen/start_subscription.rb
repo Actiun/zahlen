@@ -31,21 +31,21 @@ module Zahlen
         # Get default payment source
         card = customer.payment_sources.map{ |k, c| c if c.default }.compact.first
 
-        conekta_sub = customer.create_subscription({
+        conekta_sub = customer.create_subscription(
           plan: subscription.plan.gateway_reference_id,
           card: card.id
-        })
+        )
 
         subscription.update_attributes(
           gateway_reference_id:  conekta_sub.id,
-          gateway_customer_id:  customer.id,
+          gateway_customer_id:   customer.id,
           current_period_start:  Time.at(conekta_sub.billing_cycle_start),
           current_period_end:    Time.at(conekta_sub.billing_cycle_end),
           ended_at:              conekta_sub.paused_at ? Time.at(conekta_sub.paused_at) : nil,
           trial_start:           conekta_sub.trial_start ? Time.at(conekta_sub.trial_start) : nil,
           trial_end:             conekta_sub.trial_end ? Time.at(conekta_sub.trial_end) : nil,
           canceled_at:           conekta_sub.canceled_at ? Time.at(conekta_sub.canceled_at) : nil,
-          gateway_status:        conekta_sub.status,
+          gateway_status:        conekta_sub.status
         )
 
         card = customer.payment_sources.first
@@ -56,14 +56,14 @@ module Zahlen
             card_bin:            card.bin,
             card_last4:          card.last4,
             card_expiration:     Date.new("#{prefix_exp_year}#{card.exp_year}".to_i, card.exp_month.to_i, 1),
-            card_brand:          card.respond_to?(:brand) ? card.brand : card.type,
+            card_brand:          card.respond_to?(:brand) ? card.brand : card.type
           )
         end
 
         subscription.activate!
       rescue Conekta::ErrorList => error_list
         errors = []
-        for error_detail in error_list.details do
+        error_list.details.each do |error_detail|
           errors << error_detail.message
         end
         subscription.update_attributes(last_error: errors.to_sentence)
