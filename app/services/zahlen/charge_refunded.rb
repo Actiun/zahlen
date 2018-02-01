@@ -9,7 +9,8 @@ module Zahlen
 
       chrg = event.data['object'].with_indifferent_access
       refund = chrg[:refunds].first
-      charge.update_attributes(status: 'refunded', refunded_at: refund[:created_at])
+      charge.update_attributes(refunded_at: refund[:created_at])
+      charge.refund!
     end
   end
 end
