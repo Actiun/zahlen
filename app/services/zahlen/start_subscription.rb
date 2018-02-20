@@ -27,10 +27,13 @@ module Zahlen
         if customer.blank?
           raise 'Customer couldnt be found and its required to make the charge.'
         end
+        # Store customer gateway id on subscription before create charge
+        subscription.update_attributes(gateway_customer_id: customer.id)
 
         # Get default payment source
         card = customer.payment_sources.map{ |k, c| c if c.default }.compact.first
 
+        # Create the subscription and charge
         conekta_sub = customer.create_subscription(
           plan: subscription.plan.gateway_reference_id,
           card: card.id
@@ -38,7 +41,6 @@ module Zahlen
 
         subscription.update_attributes(
           gateway_reference_id:  conekta_sub.id,
-          gateway_customer_id:   customer.id,
           current_period_start:  Time.at(conekta_sub.billing_cycle_start),
           current_period_end:    Time.at(conekta_sub.billing_cycle_end),
           ended_at:              conekta_sub.paused_at ? Time.at(conekta_sub.paused_at) : nil,
