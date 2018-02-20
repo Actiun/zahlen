@@ -41,8 +41,8 @@ module Zahlen
 
         subscription.update_attributes(
           gateway_reference_id:  conekta_sub.id,
-          current_period_start:  Time.at(conekta_sub.billing_cycle_start),
-          current_period_end:    Time.at(conekta_sub.billing_cycle_end),
+          current_period_start:  conekta_sub.billing_cycle_start ? Time.at(conekta_sub.billing_cycle_start) : nil,
+          current_period_end:    conekta_sub.billing_cycle_end ? Time.at(conekta_sub.billing_cycle_end) : nil,
           ended_at:              conekta_sub.paused_at ? Time.at(conekta_sub.paused_at) : nil,
           trial_start:           conekta_sub.trial_start ? Time.at(conekta_sub.trial_start) : nil,
           trial_end:             conekta_sub.trial_end ? Time.at(conekta_sub.trial_end) : nil,
