@@ -6,7 +6,7 @@ require 'zahlen/worker/sucker_punch'
 module Zahlen
   module Worker
     class << self
-      attr_accessor :registry
+      attr_accessor :registry, :queue_name
 
       def find(symbol)
         if registry.has_key? symbol
@@ -29,6 +29,10 @@ module Zahlen
         end
 
         raise "No eligible background worker systems found."
+      end
+
+      def queue_name
+        Zahlen.queue_name
       end
     end
 

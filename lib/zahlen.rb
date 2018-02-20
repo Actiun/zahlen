@@ -9,6 +9,7 @@ module Zahlen
                   :publishable_key,
                   :secret_key,
                   :background_worker,
+                  :queue_name,
                   :event_filter,
                   :default_currency,
                   :active_payments_methods,
@@ -26,6 +27,7 @@ module Zahlen
       self.publishable_key = nil
       self.secret_key = nil
       self.background_worker = nil
+      self.queue_name = nil
       self.event_filter = lambda { |event| event }
       self.default_currency = 'MXN'
       self.uuid_generator = lambda { SecureRandom.urlsafe_base64.gsub(/-|_/, '')[0..19] }

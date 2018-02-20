@@ -5,6 +5,8 @@ end
 module Zahlen
   module Worker
     class ActiveJob < ::ActiveJob::Base
+      queue_as queue_name.to_sym if defined? ::ActiveJob::Core && !queue_name.blank?
+
       def self.can_run?
         defined?(::ActiveJob::Core)
       end
