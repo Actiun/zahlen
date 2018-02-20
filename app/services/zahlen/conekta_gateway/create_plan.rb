@@ -16,7 +16,7 @@ module Zahlen
           trial_period_days: plan.respond_to?(:trial_period_days) ? plan.trial_period_days : nil,
           expiry_count:      plan.respond_to?(:expiry_count) ? plan.expiry_count : nil,
         })
-      rescue Conekta::ErrorList
+      rescue Conekta::Error
         return find_plan(plan)
       end
 
@@ -26,8 +26,8 @@ module Zahlen
           return existing_plan if validate_plan(plan, existing_plan)
           raise 'Conekta::Plan exist with same ID and it has differences'
         end
-      rescue Conekta::ErrorList => error_list
-        error_list.details.each do |error_detail|
+      rescue Conekta::Error => error
+        for error_detail in error.details do
           raise "Conketa Error Msg => #{error_detail.message}"
         end
       end

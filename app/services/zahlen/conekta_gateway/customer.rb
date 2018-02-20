@@ -29,9 +29,9 @@ module Zahlen
 
         return customer
 
-      rescue Conekta::ErrorList => error_list
+      rescue Conekta::Error => error
         errors = []
-        error_list.details.each do |error_detail|
+        for error_detail in error.details do
           errors << error_detail.message
         end
         subscription.update_attributes(last_error: errors.to_sentence)
