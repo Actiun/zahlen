@@ -71,6 +71,8 @@ module Zahlen
         subscription.update_attributes(last_error: errors.to_sentence)
         subscription.fail!
       rescue StandardError => e
+        Rails.logger.info 'Error on start subscription'
+        Rails.logger.info e.backtrace
         subscription.update_attributes(last_error: e)
         subscription.fail!
       end
