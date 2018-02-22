@@ -1,4 +1,4 @@
-module Payola
+module Zahlen
   class UpdateSubscription
     def self.call(event)
       case Zahlen.gateway
