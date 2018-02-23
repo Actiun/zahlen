@@ -110,6 +110,10 @@ module Zahlen
       plan
     end
 
+    def redirect_path(sale)
+      plan.redirect_path(self)
+    end
+
     def uuid_prefix
       'sub_'
     end

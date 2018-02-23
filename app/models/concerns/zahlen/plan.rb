@@ -17,6 +17,8 @@ module Zahlen
       before_create :create_gateway_plan
 
       has_many :subscriptions, class_name: 'Zahlen::Subscription'
+
+      Zahlen.register_subscribable(self)
     end
 
     def create_gateway_plan

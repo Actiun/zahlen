@@ -20,10 +20,32 @@ module Zahlen
       }, status: error_msg.blank? ? 200 : 400
     end
 
+    def change_plan
+      find_plan
+      payment_method = params[:payment_method]
+
+      Zahlen::ChangeSubscriptionPlan.call(@subscription, @plan, payment_method)
+
+      flash.keep
+      if payment_method == 'card'
+        message = 'Tu subscripción ha sido actualizada y el nuevo plan será cobrado hasta tu siguiente fecha de cargo.'
+      else
+        message = 'Tu subscripción será actualizada una vez que el pago sea concretado.'
+      end
+      redirect_to zahlen_subscription_path(uuid: @subscription.uuid), flash: { sucesss: message }
+    end
+
     private
 
     def set_subscription
       @subscription = Subscription.find_by(uuid: params[:uuid])
+    end
+
+    def find_plan
+      plan_class = Zahlen.subscribables[params[:plan_class]]
+      raise ActionController::RoutingError.new('Not Found') unless plan_class && plan_class.subscribable?
+
+      @plan = plan_class.find_by!(id: params[:plan_id])
     end
 
   end

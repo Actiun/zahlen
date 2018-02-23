@@ -13,7 +13,8 @@ module Zahlen
                   :event_filter,
                   :default_currency,
                   :active_payments_methods,
-                  :uuid_generator
+                  :uuid_generator,
+                  :subscribables
 
     def configure(&block)
       raise ArgumentError, "must provide a block" unless block_given?
@@ -31,6 +32,7 @@ module Zahlen
       self.event_filter = lambda { |event| event }
       self.default_currency = 'MXN'
       self.uuid_generator = lambda { SecureRandom.urlsafe_base64.gsub(/-|_/, '')[0..19] }
+      self.subscribables = {}
     end
 
     def subscribe(name, callable = Proc.new)
@@ -43,6 +45,10 @@ module Zahlen
 
     def all(callable = Proc.new)
       ConektaEvent.all(callable)
+    end
+
+    def register_subscribable(klass)
+      subscribables[klass.plan_class] = klass
     end
 
     def queue!(klass, *args)
