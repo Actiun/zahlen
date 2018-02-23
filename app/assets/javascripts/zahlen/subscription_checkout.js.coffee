@@ -53,8 +53,9 @@ class @SubscriptionCheckout
       self.displayPaymentMethodData()
 
   displayPaymentMethodData: ->
-    $('.payment-method-fields').hide()
-    $(".#{@payment_method}-fields").show()
+    form_selector = @constructor.form_selector
+    $(form_selector).find('.payment-method-fields').hide()
+    $(form_selector).find(".#{@payment_method}-fields").show()
 
   validateForm: ->
     self = @
