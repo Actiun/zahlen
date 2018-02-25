@@ -8,7 +8,7 @@ module Zahlen
                  end
       end
 
-      return charge unless charge.paid?
+      return charge unless charge.payed?
       sub = charge.subscription
       case charge.payment_method
       when 'card'
