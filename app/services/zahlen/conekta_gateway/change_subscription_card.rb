@@ -4,7 +4,7 @@ module Zahlen
       def self.call(subscription, card_token)
         begin
           customer = Zahlen::ConektaGateway::Customer.find_or_create(subscription)
-          card   = customer.create_payment_source(type: "card", token_id: card_token)
+          card = customer.create_payment_source(type: "card", token_id: card_token)
           customer.subscription.update(card: card.id)
           prefix_exp_year = Time.zone.now.year.to_s[0..1]
           subscription.update_attributes(
