@@ -4,9 +4,9 @@ module Zahlen
       case Zahlen.gateway
       when 'conekta'
         event_sub = event.data['object'].with_indifferent_access
-        sub = Zahlen::Charge.where(gateway: 'conekta', gateway_reference_id: event_sub[:id])
+        sub = Zahlen::Subscription.where(gateway: 'conekta', gateway_reference_id: event_sub[:id]).first
+        sub.sync_gateway if sub
       end
-      sub.sync_gateway
     end
   end
 end
