@@ -26,13 +26,17 @@ module Zahlen
 
       Zahlen::ChangeSubscriptionPlan.call(@subscription, @plan, payment_method)
 
-      flash.keep
-      if payment_method == 'card'
-        message = 'Tu subscripción ha sido actualizada y el nuevo plan será cobrado hasta tu siguiente fecha de cargo.'
+      if @subscription.errors.empty?
+        flash.keep
+        if payment_method == 'card'
+          message = 'Tu subscripción ha sido actualizada y el nuevo plan será cobrado hasta tu siguiente fecha de cargo.'
+        else
+          message = 'Tu subscripción será actualizada una vez que el pago sea concretado.'
+        end
+        redirect_to subscription_path(uuid: @subscription.uuid), flash: { sucesss: message }
       else
-        message = 'Tu subscripción será actualizada una vez que el pago sea concretado.'
+        redirect_to subscription_path(uuid: @subscription.uuid), flash: { alert: @subscription.errors.full_messages.to_sentence }
       end
-      redirect_to subscription_path(uuid: @subscription.uuid), flash: { sucesss: message }
     end
 
     def update_card

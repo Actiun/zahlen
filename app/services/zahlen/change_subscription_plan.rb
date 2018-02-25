@@ -5,9 +5,9 @@ module Zahlen
       when 'card'
         case Zahlen.gateway
         when 'conekta'
-          change_response = Zahlen::ConektaGateway::ChangePlan.call(subscription, plan)
+          subscription = Zahlen::ConektaGateway::ChangePlan.call(subscription, plan)
         end
-        if change_response
+        if subscription.errors.empty?
           old_plan = subscription.plan
           subscription.update_attributes(plan: plan)
           subscription.instrument_plan_changed(old_plan)
@@ -15,6 +15,7 @@ module Zahlen
       else
         subscription.create_charge('pending_payment', payment_method, plan)
       end
+      subscription
     end
   end
 end

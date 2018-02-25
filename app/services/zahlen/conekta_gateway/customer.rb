@@ -35,8 +35,9 @@ module Zahlen
           errors << error_detail.message
         end
         subscription.update_attributes(last_error: errors.to_sentence)
+        subscription.errors[:base] << errors.to_sentence
         subscription.fail!
-        return nil
+        subscription
       end
     end
   end
