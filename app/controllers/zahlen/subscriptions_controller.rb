@@ -46,8 +46,6 @@ module Zahlen
       else
         redirect_to subscription_path(uuid: @subscription.uuid), flash: { alert: @subscription.errors.full_messages.to_sentence }
       end
-
-      redirect_to subscription_path(uuid: @subscription.uuid), flash: { sucesss: message }
     end
 
     private
