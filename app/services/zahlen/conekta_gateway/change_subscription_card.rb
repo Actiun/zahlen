@@ -6,6 +6,7 @@ module Zahlen
           customer = Zahlen::ConektaGateway::Customer.find_or_create(subscription)
           source   = customer.create_payment_source(type: "card", token_id: card_token)
           customer.subscription.update(card: source.id)
+          subscription.sync_gateway
         rescue Conekta::Error => error
           errors = []
           for error_detail in error.details do
