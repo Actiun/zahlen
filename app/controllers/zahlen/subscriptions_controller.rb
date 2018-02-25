@@ -39,6 +39,14 @@ module Zahlen
       Zahlen::ChangeSubscriptionCard.call(@subscription, params[:gateway_card_id])
       flash.keep
       message = 'Tu forma de pago fue actualizada.'
+
+      if @subscription.errors.empty?
+        message = 'Tu forma de pago fue actualizada.'
+        redirect_to subscription_path(uuid: @subscription.uuid), flash: { sucesss: message }
+      else
+        redirect_to subscription_path(uuid: @subscription.uuid), flash: { alert: @subscription.errors.full_messages.to_sentence }
+      end
+
       redirect_to subscription_path(uuid: @subscription.uuid), flash: { sucesss: message }
     end
 
