@@ -15,6 +15,10 @@ module Zahlen
         perform_later(klass.to_s, *args)
       end
 
+      def self.queue_name
+        Zahlen.queue_name
+      end
+
       def perform(klass, *args)
         klass.safe_constantize.call(*args)
       end
