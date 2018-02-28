@@ -11,10 +11,9 @@ module Zahlen
       validates :frequency, presence: true
       validates :interval, presence: true
       validates :gateway_reference_id, presence: true
-
       validates :gateway_reference_id, uniqueness: true
 
-      before_create :create_gateway_plan
+      before_validation :create_gateway_plan
 
       has_many :subscriptions, class_name: 'Zahlen::Subscription'
 
@@ -22,7 +21,9 @@ module Zahlen
     end
 
     def create_gateway_plan
-      Zahlen::CreatePlan.call(self)
+      return unless gateway_reference_id.blank?
+      gateway_plan = Zahlen::CreatePlan.call(self)
+      self.gateway_reference_id ||= gateway_plan['id']
     end
 
     def plan_class
