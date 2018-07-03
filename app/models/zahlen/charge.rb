@@ -64,7 +64,7 @@ module Zahlen
     end
 
     def process_charge
-      Zahlen::ChargePaid.call(nil, self)
+      Zahlen::ChargeConfirmation.call(self)
     end
 
     def process_refund
@@ -72,6 +72,10 @@ module Zahlen
     end
 
     def process_fail
+    end
+
+    def manual_confirmation?
+      cash? || check? || wire_transfer?
     end
   end
 end
