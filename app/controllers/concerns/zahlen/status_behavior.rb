@@ -3,7 +3,7 @@ module Zahlen
     extend ActiveSupport::Concern
 
     def render_zahlen_status(object)
-      render nothing: true, status: 404 && return unless object
+      head :not_found && return unless object
 
       error_msg = object.errors.full_messages.compact.to_sentence
 
