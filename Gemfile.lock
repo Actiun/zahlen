@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    zahlen (0.1.0)
+    zahlen (0.1.1)
       aasm (>= 4.0.7)
       conekta (>= 2.0.0)
       conekta_event (>= 1.0.3)
